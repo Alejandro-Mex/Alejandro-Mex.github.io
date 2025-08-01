@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Carta para una señorita linda!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #E6B8FF; /* Lila claro para el fondo */
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Estilos para los tulipanes */
+        .tulipan {
+            position: absolute;
+            width: 140px; /* Tulipanes un poco más grandes para acompañar el nuevo tamaño */
+            height: auto;
+            opacity: 0.8;
+            animation: flotar 3s ease-in-out infinite alternate;
+        }
+
+        .tulipan-1 {
+            top: 10%;
+            left: 6%;
+
+            animation-delay: 0s;
+        }
+
+        .tulipan-2 {
+            bottom: 10%;
+            right: 5%;
+
+            animation-delay: 1s;
+        }
+
+        .tulipan-3 {
+            top: 10%;
+            right: 6%;
+
+            animation-delay: 2s;
+        }
+
+        .tulipan-4 {
+            bottom: 10%;
+            left: 5%;
+
+            animation-delay: 0.5s;
+        }
+
+        @keyframes flotar {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); } /* Rango de flotación ligeramente mayor */
+        }
+
+        /* Contenedor principal del sobre */
+        .sobre-contenedor {
+            position: relative;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        /* Estilos del sobre - Dimensiones más grandes */
+        .sobre {
+            position: relative;
+            width: 900px; /* Ancho del sobre más grande */
+            height: 320px; /* Alto del sobre más grande */
+            background-color: #DABFFF; /* Lila medio */
+            border-radius: 12px; /* Bordes más redondeados para el nuevo tamaño */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* Estilos de la tapa del sobre */
+        .tapa {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #C2A3FF; /* Lila oscuro para la tapa */
+            border-radius: 12px; /* Bordes más redondeados */
+            transform-origin: top center;
+            transition: transform 0.7s ease-in-out;
+            z-index: -2;
+        }
+
+        /* Estilos del contenido de la carta - ¡Ahora más grande! */
+        .carta-contenedor {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* Estado inicial: oculta y ligeramente desplazada hacia arriba para animación */
+            transform: translate(-50%, -50%) translateY(calc(100% + 70px)); /* Desplaza más la carta hacia abajo al inicio */
+            background-color: white;
+            padding: 50px; /* Más padding para que el texto no esté pegado a los bordes */
+            border-radius: 15px; /* Bordes más redondeados para la carta */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada para la carta */
+            opacity: 0; /* Inicialmente oculta */
+            transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
+            width: 90%; /* Ancho de la carta más amplio dentro de su contenedor */
+            max-width: 900px; /* Ancho máximo de la carta incrementado */
+            max-height: 85vh; /* Altura máxima de la carta incrementada */
+            overflow-y: auto; /* Habilita el scroll vertical si el contenido excede max-height */
+            text-align: center;
+            line-height: 1.8;
+            color: #5C2A7E;
+            font-size: 1.2em; /* Texto un poco más grande para el nuevo tamaño */
+            z-index: 1;
+        }
+
+        .carta-contenedor h2 {
+            font-size: 2.2em; /* Título más grande */
+            margin-bottom: 25px;
+            color: #7B3EAB;
+        }
+
+        .carta-contenedor p {
+            margin-bottom: 1.2em; /* Más espacio entre párrafos */
+            text-align: justify;
+            text-indent: 2em; /* Sangría un poco más grande */
+        }
+        .carta-contenedor p:last-child {
+            margin-bottom: 0;
+            text-align: center;
+            text-indent: 0;
+        }
+
+        /* Clase para cuando el sobre está abierto (primer clic) */
+        .sobre-contenedor.abierto .tapa {
+            transform: rotateX(-180deg);
+            background-color: #A37BCD;
+        }
+
+        /* Cuando el sobre está abierto, la carta se asoma un poco */
+        .sobre-contenedor.abierto .carta-contenedor {
+            transform: translate(-50%, -50%) translateY(-30px); /* La carta se "sube" un poco más */
+            opacity: 1;
+        }
+
+        /* Clase para cuando la carta se ha "bajado" (segundo clic) */
+        .sobre-contenedor.carta-bajada .carta-contenedor {
+            transform: translate(-50%, -50%) translateY(0);
+        }
+
+        /* Aseguramos que la tapa y el sobre se restablecen al cerrar */
+        .sobre-contenedor:not(.abierto) .tapa {
+            transform: rotateX(0deg);
+        }
+    </style>
+</head>
+<body>
+    <img src="./img/tulipan.png" alt="Tulipán" class="tulipan tulipan-1">
+    <img src="./img/tulipan.png" alt="Tulipán" class="tulipan tulipan-2">
+    <img src="./img/tulipan.png" alt="Tulipán" class="tulipan tulipan-3">
+    <img src="./img/tulipan.png" alt="Tulipán" class="tulipan tulipan-4">
+
+    
+
+    <div class="sobre-contenedor" id="sobreContenedor">
+        <audio autoplay loop controls id="miaudio" preload="auto">
+            <source src="./img/morat.mp3" type="audio/mp3">
+        </audio>
+
+        <div class="sobre">
+            <p> Hola te pido un favor ponle play a la musica no busque como hacerlo 😁 (Si lo vez en tu telefono ponlo en vista de computadora y giralo por favor)</p>
+            <div class="tapa"></div>
+        </div>
+        <div class="carta-contenedor" id="cartaContenedor">
+            <h2>¡Hola Señorita LETY!</h2>
+            <p>Mi querida señorita Maria Leticia Tec Coh.</p>
+            <p>Te hago llegar esta carta por que es algo que no puedo decirte en persona, a lo largo de estos 3 años
+                de conocerte siento que eres la persona mas linda, tierna, alegre que apesar de los problemas familiares
+                que tenias nunca te vi triste o decaida y siendo una persona muy inteligente aunque no lo quieras aceptar.
+                No te voy a decir que eres perfecta(Aun que ante mis ojos si 😊😍) por que somos humanos y la perfeccion
+                no existe. Desde el principo ya llamaste mi atencion pero como tenias novio nunca te vi mas que como una amiga,
+                pero luego terminaste con el y comenzo a cambiar la manera de verte.
+
+            </p>
+            <p>
+                Hace unos meses por diversas razones me anime a declararte mis sentimientos sin imaginar lo profundo 
+                que te habias metido en mi corazon ❤️, me dijiste que no, mencionaste que estabas enamorada de otra persona,
+                no se quien es ese afortunado no conozco el motivo por el que no estas con el si es mutuo o no, pero si en verdad
+                lo amas debes de intertar estar con el sin importar lo que digan los demas. Para mi el amar a una persona es querer
+                estar siempre con la otra persona sin importar nada, apoyarse el uno a otro y ayudar a ser mejores para sacar la
+                mejor version de la otra persona.
+            </p>
+            <p>
+                Hace mas de un meses te di unos detalles por tu cumpleaños y te volvi a mencionar mis sentimientos los cuales
+                no rechazarte esta vez ☺️, pero me pediste tiempo para pensarlo para tratar de olvidar a la otra persona, yo mismo
+                se que eso es super complicado lo esto viviendo contigo 🙂, olvidar a una persona que amas no es facil y cuando me 
+                lo dijiste solo queria decir que "Yo te ayudo a olvidar" pero no lo hice me contube con todas mis fuerzas, por 
+                que siento demasiado haberte dicho eso. 
+            </p>
+            <p>
+                Desde ese momento no he podido sacarte de mi mente durante todas las vacaciones has estado en mi cabeza pensado
+                como estas, que estaras haciendo, si comiste, si estas descansando. Y se que esta mal podria parecer una obsecion
+                incluso me hicieron pensarlo, pero lo que siempre estaba en mi corazon es "Esta con su familia contenta y espero
+                que este bien", no me importaba nada mas que eso.
+            </p>
+            <p>
+                Disculpa ya le di muchas vueltas pero este es mi ultimo intento, quiero que quede bien enclaro lo que mi corazon
+                siente por ti. Son 2 cosas que tengo en claro, la primera es que ¡¡¡ Te amo Lety ☺️☺️!!! se que se puede escuchar
+                fuerte pero las palabras "Me gustas o Te quiero" quedan cortas y no encuentro otras palabras para describirlo. La 
+                segunda es que quiero sacar a la luz la mejor version de mi tengo 2 formas de hacerlo contigo como motivacion o solo,
+                si lo hago solo mi mente se centrara en eso y mi corazon se cerrara para todo lo demas. Se que me dijiste que regresando
+                de vacaciones me darias tu respuesto pero no puedo esperarmas, no quiero precionarte pero siento que lo que te pregunte
+                que fue ¿Si me darias una oportunidad para eneamorar?, no tendiras que pensarlo tanto si realmente quisieras.
+                Entiendo que no quieras solo por que si o esperas una oportunidad con la otra persona, pero no te pedi que fueras
+                mi novia ni nada por el estilo solo fue que me dieras una oportunidad solo nos queda un año por seguir viendonos
+                y de ahi sino somos nada considero que de ti no sabre nada nunca mas, por que aveces siento que ni amigos somos.
+            </p>
+            <p>
+                Como te dije este es mi ultimo intento ☺️ y solo quiero pedirte una cosa si me quieres dar una oportunidad solo respone
+                el mensaje con un "SI" y me des tus condiciones, pero si es "NO" recuerdo todas las promesas que te hice pero necesito disminuir mis sentimientos, 
+                necesito alejarme de ti. Pero por favor responde por que es mas tortuoso esperar todo lo que queda de vaciones si al final tu respuesta va 
+                a ser no. Siempre vas a hacer super especial para mi ☺️.
+            </p>
+            <p>
+                Cuando entremos a la escuela si tu respuesta es no todo estara normal para eso quiero este tiempo por que la verdad pense que 
+                no me afectaria tanto verte sabiendo que tu respuesta pero cuando te vi en Campeche me senti muy mal, para poder superarlo necesito 
+                procesarlo y si estamos en la escuela se me va a complicar sabiendo que voy a ver tu hermosas carita ☺️ todos los dias,
+                asi que no te precupes siempre estare para ti y podras contar conmigo. Lety lo unico que deseo es que tu sea lo mas feliz
+                posible ☺️ se conmigo a un lado o con cualquier otra persona si importar quien.
+            </p>
+
+            <p>
+                Nose si leeras toda la carta por que me extendi mucho pero si lo haces gracias por los momentos que me permitiste pasar 
+                a tu lado contigo, dejarme ver la hermosa sonrisa que tienes 😁, ver los preciosas ojos que tiene que con verlo mi dia se 
+                alegrara mucho 😍. No se si es un adios o no pero fuiste una persona super especial en mi vida y siempre te recordare.
+            </p>
+            <p>¡¡ Con amor tu compañero Alejandro Mex !! Disfruta tus vacaciones y cuidate mucho. ☺️☺️</p>
+        </div>
+    </div>
+
+    <script>
+
+        const audio = document.getElementById('miaudio');
+        audio.volume = 0.2; 
+        const sobreContenedor = document.getElementById('sobreContenedor');
+
+        sobreContenedor.addEventListener('click', () => {
+            if (!sobreContenedor.classList.contains('abierto')) {
+                sobreContenedor.classList.add('abierto');
+                sobreContenedor.classList.remove('carta-bajada');
+            } else if (!sobreContenedor.classList.contains('carta-bajada')) {
+                sobreContenedor.classList.add('carta-bajada');
+            } else {
+                sobreContenedor.classList.remove('carta-bajada');
+                sobreContenedor.classList.remove('abierto');
+            }
+        });
+    </script>
+</body>
+</html>
